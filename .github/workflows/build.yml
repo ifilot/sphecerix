@@ -25,7 +25,7 @@ jobs:
       run: /opt/python/cp39*/bin/python setup.py bdist_wheel
     - name: Test
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install numpy scipy nose
+        /opt/python/cp39-cp39/bin/python -m pip install numpy scipy nose pylebedev
         /opt/python/cp39-cp39/bin/pip install sphecerix --no-index -f ./dist
         /opt/python/cp39-cp39/bin/pytest --verbose tests
     - name: Archive wheels
