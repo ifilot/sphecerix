@@ -18,7 +18,7 @@ jobs:
         yum -y install mlocate
         yum -y install gcc
         ls -alh /opt/python/cp*
-        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest scipy
+        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest scipy pylebedev
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Build
