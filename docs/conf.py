@@ -17,7 +17,7 @@ import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyTessel'
+project = 'Sphecerix'
 copyright = '2023, Inorganic Materials and Catalysis'
 author = 'Ivo Filot'
 
@@ -58,7 +58,7 @@ html_static_path = ['_static']
 #     'display_version': True,
 #     'analytics_id': 'G-H71EPP6GVB'
 # }
-html_logo = "_static/img/pytessel_logo_128.png"
+html_logo = "_static/img/sphecerix_logo_128.png"
 html_favicon = "_static/img/favicon.ico"
 html_css_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
