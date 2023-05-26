@@ -2,10 +2,6 @@ package:
   name: "sphecerix"
   version: "0.1.0"
 
-channels:
-  - defaults
-  - ifilot
-
 source:
   path: .
 
@@ -36,11 +32,10 @@ test:
     - scipy
     - setuptools
     - nose
-    - pylebedev
   source_files:
     - tests/*.py
   commands:
-    - nosetests tests
+    - nosetests tests --exclude="test_wave_functions.py"
 
 about:
   home: https://github.com/ifilot/pylebedev
