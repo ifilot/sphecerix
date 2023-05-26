@@ -29,11 +29,13 @@ requirements:
 test:
   requires:
     - numpy
+    - scipy
     - setuptools
     - nose
   source_files:
     - tests/*.py
   commands:
+    - conda install -c ifilot pylebedev
     - nosetests tests
 
 about:
