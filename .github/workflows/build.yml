@@ -1,0 +1,104 @@
+name: build
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  build-pypi:
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - name: Install dependencies
+      run: |
+        yum -y install eigen3-devel libgomp glm-devel
+        yum -y install mlocate
+        yum -y install gcc
+        ls -alh /opt/python/cp*
+        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest scipy pylebedev
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Build
+      run: /opt/python/cp39*/bin/python setup.py bdist_wheel
+    - name: Test
+      run: |
+        /opt/python/cp39-cp39/bin/python -m pip install numpy scipy nose pylebedev
+        /opt/python/cp39-cp39/bin/pip install sphecerix --no-index -f ./dist
+        /opt/python/cp39-cp39/bin/pytest --verbose tests
+    - name: Archive wheels
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: dist/sphecerix-*.whl
+
+  publish-pypi:
+    name: Upload release to PyPI
+    if: github.ref == 'refs/heads/master'
+    needs: build-pypi
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/sphecerix
+    permissions:
+      id-token: write
+    steps:
+    - name: Retrieve packages
+      uses: actions/download-artifact@v3
+      with:
+        name: wheels
+        path: wheelhouse
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        packages-dir: wheelhouse/
+
+  build-anaconda:
+    runs-on: ubuntu-latest
+    container: conda/miniconda3
+
+    steps:
+      - name: Prepare build environment
+        run: conda install -y conda-build
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Build
+        shell: bash -l {0}
+        run: |
+          conda build .
+      - name: Archive packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: anaconda-packages
+          path: /usr/local/conda-bld/noarch/sphecerix-*.tar.bz2
+
+  publish-anaconda:
+    name: Upload release to Anaconda
+    if: github.ref == 'refs/heads/master'
+    needs: build-anaconda
+    runs-on: ubuntu-latest
+    container: conda/miniconda3
+
+    environment:
+      name: anaconda
+      url: https://anaconda.org/ifilot/sphecerix
+
+    steps:
+      - name: Prepare deployment environment
+        run: conda install -y conda-build anaconda-client
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Retrieve packages
+        uses: actions/download-artifact@v3
+        with:
+          name: anaconda-packages
+          path: packages
+      - name: Publish to anaconda
+        shell: bash -l {0}
+        env:
+          INPUT_ANACONDATOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          export ANACONDA_API_TOKEN=$INPUT_ANACONDATOKEN
+          anaconda upload packages/*.tar.bz2
