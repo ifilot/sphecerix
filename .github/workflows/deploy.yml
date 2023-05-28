@@ -35,7 +35,6 @@ jobs:
 
   publish-pypi:
     name: Upload release to PyPI
-    if: github.ref == 'refs/heads/master'
     needs: build-pypi
     runs-on: ubuntu-latest
     environment:
@@ -75,7 +74,6 @@ jobs:
 
   publish-anaconda:
     name: Upload release to Anaconda
-    if: github.ref == 'refs/heads/master'
     needs: build-anaconda
     runs-on: ubuntu-latest
     container: conda/miniconda3
