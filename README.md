@@ -39,16 +39,18 @@ coordinates $`(1,1,1)`$ by an angle $`\pi`$. The result of this rotation is
 a linear combination of spherical harmonics all with $`l=2`$.
 
 ```python
-from sphecerix import tesseral_wigner_D_axis_angle
+from sphecerix import tesseral_wigner_D
+from scipy.spatial.transform import Rotation as R
 import numpy as np
 
 def main():
     # build rotation axis and set angle
     axis = np.ones(3) / np.sqrt(3)
     angle = np.pi
+    Robj = R.from_rotvec(axis * angle)
     
     # construct tesseral Wigner D matrix
-    D = tesseral_wigner_D_axis_angle(2, axis, angle)
+    D = tesseral_wigner_D(2, Robj)
     Y = np.zeros(5)
     Y[2] = 1
     
