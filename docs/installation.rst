@@ -21,7 +21,7 @@ Windows / Anaconda
 To install :program:`Sphecerix` under Windows, open an Anaconda Prompt window
 and run::
 
-    conda install -c ifilot pytessel
+    conda install -c ifilot sphecerix
 
 .. note::
     Sometimes Anaconda is unable to resolve the package dependencies. This can
@@ -34,8 +34,8 @@ Linux / PyPI
 
 To install :program:`Sphecerix` systemwide, run::
 
-    sudo pip install pytessel
+    sudo pip install sphecerix
 
 or to install :program:`Sphecerix` only for the current user, run::
 
-    pip install pytessel
+    pip install sphecerix

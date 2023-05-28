@@ -1,6 +1,8 @@
 Sphecerix: Constructing Wigner-D matrices
 =========================================
 
+.. image:: https://img.shields.io/static/v1?label=status&message=beta%20testing&color=ffad33
+   :alt: Status
 .. image:: https://img.shields.io/github/v/tag/ifilot/sphecerix?label=version
    :alt: GitHub tag (latest SemVer)
 .. image:: https://github.com/ifilot/sphecerix/actions/workflows/build.yml/badge.svg
