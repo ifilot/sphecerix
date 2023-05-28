@@ -2,9 +2,9 @@ name: docs
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "docs" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "docs" ]
 
 jobs:
   build-docs:
