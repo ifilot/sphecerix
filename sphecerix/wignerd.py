@@ -2,32 +2,33 @@
 
 import numpy as np
 from scipy.special import factorial
-from .rotations import axis_angle_to_euler
+from scipy.spatial.transform import Rotation as R
 from .tesseral import tesseral_transformation
 
-def tesseral_wigner_D_axis_angle(l, axis, angle):
+def tesseral_wigner_D(l, Robj):
     """
     Produce the Wigner D-matrix for tesseral spherical harmonics
     """
+    # verify that Robj is a rotation object
+    if not isinstance(Robj, R):
+        raise TypeError('Second argument Robj should be of type scipy.spatial.transform.R')
+    
     T = tesseral_transformation(l)
-    alpha, beta, gamma = axis_angle_to_euler(axis, angle)
-    D = wigner_D(l, alpha, beta, gamma)
+    alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+    D = wigner_D(l, Robj)
     
     return np.real(T @ D @ T.conjugate().transpose())
 
-def wigner_D_axis_angle(l, axis, angle):
+def wigner_D(l, Robj):
     """
     Produce Wigner D-matrix for order l of spherical harmonics and
     given axis angle rotation
     """
-    alpha, beta, gamma = axis_angle_to_euler(axis, angle)
-    return wigner_D(l, alpha, beta, gamma)
+    # verify that Robj is a rotation object
+    if not isinstance(Robj, R):
+        raise TypeError('Second argument Robj should be of type scipy.spatial.transform.R')
 
-def wigner_D(l, alpha, beta, gamma):
-    """
-    Produce Wigner D-matrix for order l of spherical harmonics and
-    euler angles
-    """
+    alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
     d = wigner_d(l, beta)
     m = np.arange(-l, l+1)
     diag_alpha = np.diag(np.exp(1j * m * alpha))
