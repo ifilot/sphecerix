@@ -40,3 +40,74 @@ tesseral ones as given by :math:`\mathbf{T}` and the Wigner-D matrix :math:`\mat
 .. note::
   In :program:`Sphecerix` one can choose to construct the Wigner-D matrix for either
   canonical or tesseral spherical harmonics.
+
+Labels tesseral spherical harmonics
+-----------------------------------
+
+For the real-valued spherical harmonics, i.e. the spherical harmonics after a
+tesseral transformation, their canonical names are derived from the
+mathematical equation that describes the angular part of the hydrogen-like
+wave function. In the table below, an overview is given how the labels for
+the tesseral spherical harmonics are associated to the values for :math:`m`.
+
+.. tip::
+  For a detailed description how these labels are constructed, have a look 
+  at `this publication of Ashkenazi <https://pubs.acs.org/doi/abs/10.1021/ed082p323>`_.
+
+.. list-table:: Labeling of the tesseral spherical harmonics
+   :header-rows: 1
+
+   * - :math:`-4`
+     - :math:`-3`
+     - :math:`-2`
+     - :math:`-1`
+     - :math:`-0`
+     - :math:`-1`
+     - :math:`-2`
+     - :math:`-3`
+     - :math:`-4`
+   * - :math:`-`
+     - :math:`-`
+     - :math:`-`
+     - :math:`-`
+     - :math:`s`
+     - :math:`-`
+     - :math:`-`
+     - :math:`-`
+     - :math:`-`
+   * - :math:`-`
+     - :math:`-`
+     - :math:`-`
+     - :math:`p_{y}`
+     - :math:`p_{z}`
+     - :math:`p_{x}`
+     - :math:`-`
+     - :math:`-`
+     - :math:`-`
+   * - :math:`-`
+     - :math:`-`
+     - :math:`d_{xy}`
+     - :math:`d_{yz}`
+     - :math:`d_{z^{2}}`
+     - :math:`d_{xz}`
+     - :math:`d_{x^2-y^2}`
+     - :math:`-`
+     - :math:`-`
+   * - :math:`-`
+     - :math:`f_{y(3x^2-y^2)}`
+     - :math:`f_{xyz}`
+     - :math:`f_{yz^2}`
+     - :math:`f_{z^3}`
+     - :math:`f_{xz^2}`
+     - :math:`f_{z(x^2-y^2)}`
+     - :math:`f_{x(x^2-3y^2)}`
+     - :math:`-`
+   * - :math:`g_{xy(x^2-y^2)}`
+     - :math:`g_{zy^3}`
+     - :math:`g_{xyz^2}`
+     - :math:`g_{yz^3}`
+     - :math:`g_{z^4}`
+     - :math:`g_{xz^3}`
+     - :math:`g_{z^2(x^2-y^2)}`
+     - :math:`g_{zx^3}`
+     - :math:`g_{x^4+y^4}`
