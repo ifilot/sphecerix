@@ -4,6 +4,7 @@ import numpy as np
 from scipy.special import factorial
 from scipy.spatial.transform import Rotation as R
 from .tesseral import tesseral_transformation
+import warnings
 
 def tesseral_wigner_D(l, Robj):
     """
@@ -60,10 +61,47 @@ def tesseral_wigner_D(l, Robj):
         raise TypeError('Second argument Robj should be of type scipy.spatial.transform.R')
     
     T = tesseral_transformation(l)
-    alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', r'Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.')
+        alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+        
     D = wigner_D(l, Robj)
     
     return np.real(T @ D @ T.conjugate().transpose())
+
+def tesseral_wigner_D_mirror(l, normal):
+    """
+    Produce the Wigner D-matrix for tesseral spherical harmonics for a mirror operation
+
+    Parameters
+    ----------
+    l : int
+        Order of the spherical harmonics
+    normal : np.array
+        Normal vector
+
+    Returns
+    -------
+    D : numpy.ndarray
+        Real-valued Wigner-D matrix with dimensions :math:`(2l+1) \\times (2l+1)`
+
+    """    
+    # construct mirror matrix
+    normal /= np.linalg.norm(normal) # ensure normalization
+    M = np.identity(3) - 2 * np.outer(normal, normal)
+    
+    # decompose mirror operation into a rotation and an inversion
+    Robj = R.from_matrix(-M)
+    inv = (-1)**l * np.identity(2*l+1)
+    
+    T = tesseral_transformation(l)
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', r'Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.')
+        alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+        
+    D = wigner_D(l, Robj)
+    
+    return inv @ np.real(T @ D @ T.conjugate().transpose())
 
 def wigner_D(l, Robj):
     """
@@ -124,14 +162,16 @@ def wigner_D(l, Robj):
     if not isinstance(Robj, R):
         raise TypeError('Second argument Robj should be of type scipy.spatial.transform.R')
 
-    alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', r'Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.')
+        alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
     d = wigner_d(l, beta)
     m = np.arange(-l, l+1)
     diag_alpha = np.diag(np.exp(1j * m * alpha))
     diag_gamma = np.diag(np.exp(1j * m * gamma))
     
     return diag_gamma @ d @ diag_alpha
-    
+
 def wigner_d(l, beta):
     """
     Produce Wigner (small) d-matrix for order l of spherical harmonics and
