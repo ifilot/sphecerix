@@ -92,7 +92,7 @@ def tesseral_wigner_D_mirror(l, normal):
     
     # decompose mirror operation into a rotation and an inversion
     Robj = R.from_matrix(-M)
-    inv = (-1)**l * np.identity(2*l+1)
+    inv = (-1)**l
     
     T = tesseral_transformation(l)
     with warnings.catch_warnings():
@@ -101,7 +101,7 @@ def tesseral_wigner_D_mirror(l, normal):
         
     D = wigner_D(l, Robj)
     
-    return inv @ np.real(T @ D @ T.conjugate().transpose())
+    return inv * np.real(T @ D @ T.conjugate().transpose())
 
 def wigner_D(l, Robj):
     """
