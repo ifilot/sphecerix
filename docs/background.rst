@@ -52,15 +52,15 @@ The matrix representation of this mirror operation is given by
 
 .. math::
 
-  \mathbf{M} = \mathbf{I}_{3} - 2 \vec{n} \vec{n}^{\dagger}
+  \mathbf{M} = \mathbf{I}_{3} - 2 \vec{n} \cdot \vec{n}^{\dagger}
 
 This matrix has a negative determinant and thus contains a reflection. We can
 get rid of this reflection by multiplying this matrix by -1 which is equivalent
 to an extraction of an inversion operation. In other words, we can decompose
-the matrix :math:`mathbf{M}` such that
+the matrix :math:`\mathbf{M}` such that
 
 .. math::
-  \mathbf{M} = \mathbf{I}_{3} \mathbf{R}.
+  \mathbf{M} = (-\mathbf{I}_{3}) \mathbf{R}.
 
 The reflection operation in the space spanned by the tesseral spherical
 harmonics of order :math:`l` is known and corresponds to the character for the
