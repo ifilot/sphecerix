@@ -23,7 +23,7 @@ requests are ideally submitted via the `github issue tracker
    installation
    background
    usage
-   modules
+   functions
    community_guidelines
 
 Indices and tables

@@ -36,6 +36,9 @@ extensions = [
     "sphinx.ext.napoleon",
 ]
 
+# Napoleon settings
+napoleon_numpy_docstring = True
+
 nitpicky = True
 
 # Add any paths that contain templates here, relative to this directory.

@@ -30,17 +30,17 @@ def tesseral_wigner_D(l, Robj):
     Examples
     --------
     >>> from sphecerix import tesseral_wigner_D
-    >>> from scipy.spatial.transform import Rotation as R
-    >>> import numpy as np
-    >>> 
-    >>> # build rotation axis and set angle
-    >>> axis = np.ones(3) / np.sqrt(3)
-    >>> angle = np.pi
-    >>> Robj = R.from_rotvec(axis * angle)
-    >>> 
-    >>> # construct tesseral Wigner D matrix
-    >>> D = tesseral_wigner_D(2, Robj)
-    >>> print(D)
+    ... from scipy.spatial.transform import Rotation as R
+    ... import numpy as np
+    ...
+    ... # build rotation axis and set angle
+    ... axis = np.ones(3) / np.sqrt(3)
+    ... angle = np.pi
+    ... Robj = R.from_rotvec(axis * angle)
+    ...
+    ... # construct tesseral Wigner D matrix
+    ... D = tesseral_wigner_D(2, Robj)
+    ... print(D)
     [[ 5.55555556e-01  2.22222222e-01  7.69800359e-01  2.22222222e-01
        1.89744731e-16]
      [ 2.22222222e-01  5.55555556e-01 -3.84900179e-01  2.22222222e-01
@@ -85,6 +85,26 @@ def tesseral_wigner_D_mirror(l, normal):
     D : numpy.ndarray
         Real-valued Wigner-D matrix with dimensions :math:`(2l+1) \\times (2l+1)`
 
+    Examples
+    --------
+    >>> from sphecerix import tesseral_wigner_D_mirror
+    ... import numpy as np
+    ... 
+    ... # construct mirror normal vector
+    ... normal = np.array([-1,1,0]) / np.sqrt(2)
+    ... 
+    ... # construct wigner D matrix
+    ... D = tesseral_wigner_D_mirror(1, normal)
+    ... 
+    ... print(D)
+    [[-2.83276945e-16 -0.00000000e+00  1.00000000e+00]
+     [ 1.22464680e-16  1.00000000e+00  3.46914204e-32]
+     [ 1.00000000e+00 -1.22464680e-16  2.83276945e-16]]
+
+    Construct the Wigner-D matrix for the tesseral p-orbitals for a mirror
+    operation with the mirror plane corresponding to the xz plane rotated
+    around the z-axis by 45 degrees.
+
     """    
     # construct mirror matrix
     normal /= np.linalg.norm(normal) # ensure normalization
@@ -127,17 +147,17 @@ def wigner_D(l, Robj):
     Examples
     --------
     >>> from sphecerix import wigner_D
-    >>> from scipy.spatial.transform import Rotation as R
-    >>> import numpy as np
-    >>> 
-    >>> # build rotation axis and set angle
-    >>> axis = np.ones(3) / np.sqrt(3)
-    >>> angle = np.pi
-    >>> Robj = R.from_rotvec(axis * angle)
-    >>> 
-    >>> # construct tesseral Wigner D matrix
-    >>> D = wigner_D(2, Robj)
-    >>> print(D)
+    ... from scipy.spatial.transform import Rotation as R
+    ... import numpy as np
+    ...
+    ... # build rotation axis and set angle
+    ... axis = np.ones(3) / np.sqrt(3)
+    ... angle = np.pi
+    ... Robj = R.from_rotvec(axis * angle)
+    ...
+    ... # construct tesseral Wigner D matrix
+    ... D = wigner_D(2, Robj)
+    ... print(D)
     [[ 1.11111111e-01-1.45486986e-16j -2.22222222e-01+2.22222222e-01j
       -3.29266657e-16-5.44331054e-01j  4.44444444e-01+4.44444444e-01j
       -4.44444444e-01-4.42577444e-17j]
