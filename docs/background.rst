@@ -41,6 +41,40 @@ tesseral ones as given by :math:`\mathbf{T}` and the Wigner-D matrix :math:`\mat
   In :program:`Sphecerix` one can choose to construct the Wigner-D matrix for either
   canonical or tesseral spherical harmonics.
 
+Mirror operations among tesseral spherical harmonics
+----------------------------------------------------
+
+To construct the transformation of a mirror operation :math:`\hat{M}`, we can note that any
+mirror operation can be decomposed into a rotation and an inversion. Given a mirror
+operation through a mirror plane as represented by its normal vector :math:`\vec{n}`.
+
+The matrix representation of this mirror operation is given by
+
+.. math::
+
+  \mathbf{M} = \mathbf{I}_{3} - 2 \vec{n} \vec{n}^{\dagger}
+
+This matrix has a negative determinant and thus contains a reflection. We can
+get rid of this reflection by multiplying this matrix by -1 which is equivalent
+to an extraction of an inversion operation. In other words, we can decompose
+the matrix :math:`mathbf{M}` such that
+
+.. math::
+  \mathbf{M} = \mathbf{I}_{3} \mathbf{R}.
+
+The reflection operation in the space spanned by the tesseral spherical
+harmonics of order :math:`l` is known and corresponds to the character for the
+inversion operation which is equal to :math:`(-1)^{l}`. As such, the
+transformation matrix corresponding to a mirror operation among tesseral
+spherical harmonics of order :math:`l` is given by
+
+.. math::
+  \mathbf{T} = (-1)^{l} \cdot \mathbf{D}\prime(\hat{R})
+
+wherein :math:`\mathbf{D}\prime` is the tesseral Wigner-D matrix for the
+rotation :math:`\hat{R}` as extracted from the mirror operation :math:`\hat{M}`.
+
+
 Labels tesseral spherical harmonics
 -----------------------------------
 
