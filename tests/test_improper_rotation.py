@@ -33,6 +33,7 @@ class TestImproperRotation(unittest.TestCase):
         # note that the ordering in the vector (using increasing value of m)
         # is [y,z,x]
         np.testing.assert_almost_equal(D @ np.array([1,1,1]), np.array([-1,1,-1]))
+        print(D)
         
 if __name__ == '__main__':
     unittest.main()

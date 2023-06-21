@@ -144,6 +144,27 @@ def tesseral_wigner_D_improper(l, Robj):
     ------
     TypeError
         If the Robj object is not of type scipy.spatial.transform.R.
+        
+    Examples
+    --------
+    >>> from sphecerix import tesseral_wigner_D_improper
+    ... from scipy.spatial.transform import Rotation as R
+    ... import numpy as np
+    ... 
+    ... # construct (improper) rotation vector
+    ... axis = np.array([1,0,0])
+    ... Robj = R.from_rotvec(axis * np.pi / 2)
+    ... 
+    ... # construct wigner D matrix
+    ... D = tesseral_wigner_D_improper(1, Robj)
+    ... 
+    ... print(D)
+    [[ 7.49879891e-33 -1.00000000e+00  1.83697020e-16]
+     [ 1.00000000e+00 -2.24963967e-32 -1.83697020e-16]
+     [-1.83697020e-16 -1.83697020e-16 -1.00000000e+00]]
+
+    Construct the Wigner-D matrix for the tesseral p-orbitals for an improper
+    rotation by 90 degrees around the cartesian x-axis.
     """
     # verify that Robj is a rotation object
     if not isinstance(Robj, R):
