@@ -95,11 +95,11 @@ the tesseral spherical harmonics are associated to the values for :math:`m`.
      - :math:`-3`
      - :math:`-2`
      - :math:`-1`
-     - :math:`-0`
-     - :math:`-1`
-     - :math:`-2`
-     - :math:`-3`
-     - :math:`-4`
+     - :math:`0`
+     - :math:`1`
+     - :math:`2`
+     - :math:`3`
+     - :math:`4`
    * - :math:`-`
      - :math:`-`
      - :math:`-`

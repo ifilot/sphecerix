@@ -8,7 +8,7 @@ import warnings
 
 def tesseral_wigner_D(l, Robj):
     """
-    Produce the Wigner D-matrix for tesseral spherical harmonics
+    Produce the Wigner D-matrix for tesseral spherical harmonics for a rotation
 
     Parameters
     ----------
@@ -122,6 +122,68 @@ def tesseral_wigner_D_mirror(l, normal):
     D = wigner_D(l, Robj)
     
     return inv * np.real(T @ D @ T.conjugate().transpose())
+
+def tesseral_wigner_D_improper(l, Robj):
+    """
+    Produce the Wigner D-matrix for tesseral spherical harmonics under an
+    improper rotation
+
+    Parameters
+    ----------
+    l : int
+        Order of the spherical harmonics
+    Robj : scipy.spatial.transform.Rotation
+        Rotation in :math:`\mathbb{R}^{3}`
+
+    Returns
+    -------
+    D : numpy.ndarray
+        Real-valued Wigner-D matrix with dimensions :math:`(2l+1) \\times (2l+1)`
+
+    Raises
+    ------
+    TypeError
+        If the Robj object is not of type scipy.spatial.transform.R.
+        
+    Examples
+    --------
+    >>> from sphecerix import tesseral_wigner_D_improper
+    ... from scipy.spatial.transform import Rotation as R
+    ... import numpy as np
+    ... 
+    ... # construct (improper) rotation vector
+    ... axis = np.array([1,0,0])
+    ... Robj = R.from_rotvec(axis * np.pi / 2)
+    ... 
+    ... # construct wigner D matrix
+    ... D = tesseral_wigner_D_improper(1, Robj)
+    ... 
+    ... print(D)
+    [[ 7.49879891e-33 -1.00000000e+00  1.83697020e-16]
+     [ 1.00000000e+00 -2.24963967e-32 -1.83697020e-16]
+     [-1.83697020e-16 -1.83697020e-16 -1.00000000e+00]]
+
+    Construct the Wigner-D matrix for the tesseral p-orbitals for an improper
+    rotation by 90 degrees around the cartesian x-axis.
+    """
+    # verify that Robj is a rotation object
+    if not isinstance(Robj, R):
+        raise TypeError('Second argument Robj should be of type scipy.spatial.transform.R')
+    
+    T = tesseral_transformation(l)
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', r'Gimbal lock detected. Setting third angle to zero since it is not possible to uniquely determine all angles.')
+        alpha, beta, gamma = Robj.as_euler('zyz', degrees=False)
+        
+    D = wigner_D(l, Robj)
+    
+    # extract rotation vector from rotation object and use it to construct
+    # a mirror matrix
+    normal = Robj.as_rotvec()
+    normal /= np.linalg.norm(normal)
+    M = tesseral_wigner_D_mirror(l, normal)
+    
+    return M @ np.real(T @ D @ T.conjugate().transpose())
 
 def wigner_D(l, Robj):
     """
