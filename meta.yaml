@@ -30,6 +30,7 @@ test:
   requires:
     - numpy
     - scipy
+    - matplotlib
     - setuptools
     - nose
   source_files:
