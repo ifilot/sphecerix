@@ -1,6 +1,6 @@
 package:
   name: "sphecerix"
-  version: "0.4.0"
+  version: "0.5.0"
 
 source:
   path: .
@@ -17,7 +17,7 @@ requirements:
   host:
     - pip
     - python>=3.9
-    - setuptools
+    - setuptools==58.2.0
     - numpy>=1.21
     - scipy
 
@@ -31,7 +31,7 @@ test:
     - numpy
     - scipy
     - matplotlib
-    - setuptools
+    - setuptools==58.2.0
     - nose
   source_files:
     - tests/*.py
