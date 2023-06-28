@@ -34,6 +34,7 @@ test:
     - nose
   source_files:
     - tests/*.py
+    - tests/results/*.npy
   commands:
     - nosetests tests --exclude="test_wave_functions.py"
 
