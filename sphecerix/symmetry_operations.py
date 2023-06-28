@@ -18,7 +18,7 @@ class SymmetryOperations:
     def add(self, name, label = None, vec = None, angle = None):
         # ensure vector is of float type
         if vec is not None:
-            vec = np.array(vec, dtype=np.float)
+            vec = np.array(vec, dtype=np.float64)
         
         if name == 'identity':
             self.operations.append(Identity())
