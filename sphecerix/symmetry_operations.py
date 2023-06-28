@@ -1,49 +1,11 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
-from . import tesseral_wigner_D
-
-class Operation:
-    def __init__(self, name):
-        self.name = name
-        
-    def set_atomic_id(self, idx):
-        self.atomid = idx
-
-class Identity(Operation):
-    def __init__(self):
-        super().__init__('E')
-
-    def get_matrix(self):
-        return np.identity(3)
-    
-    def get_wigner_matrix(self, l):
-        return np.identity(2*l+1)
-
-class Rotation(Operation):
-    def __init__(self, label, axis, angle):
-        super().__init__('C' + label)
-        self.axis = axis
-        self.angle = angle
-        self.robj = R.from_rotvec(self.axis * self.angle)
-        
-    def get_matrix(self):
-        return self.robj.as_matrix()
-    
-    def get_wigner_matrix(self, l):
-        return tesseral_wigner_D(l, self.robj)
-        
-class Mirror(Operation):
-    def __init__(self, label, normal):
-        super().__init__('sigma' + label)
-        self.normal = normal
-        
-class ImproperRotation(Operation):
-    def __init__(self, label, axis, angle):
-        super().__init__('sigma' + label)
-        self.axis = axis
-        self.angle = angle
+from . import tesseral_wigner_D, tesseral_wigner_D_mirror
 
 class SymmetryOperations:
+    """
+    Class containing all symmetry operations as applied to molecule object
+    """ 
     def __init__(self, mol):
         self.mol = mol
         self.operations = []
@@ -52,9 +14,12 @@ class SymmetryOperations:
         self.positions = np.zeros((len(self.mol.atoms), 3))
         for i,atom in enumerate(self.mol.atoms):
             self.positions[i,:] = atom[1]
-        print(self.positions)
         
     def add(self, name, label = None, vec = None, angle = None):
+        # ensure vector is of float type
+        if vec is not None:
+            vec = np.array(vec, dtype=np.float)
+        
         if name == 'identity':
             self.operations.append(Identity())
         elif name == 'rotation':
@@ -63,6 +28,8 @@ class SymmetryOperations:
             self.operations.append(Mirror(label, vec))
         elif name == 'improper':
             self.operations.append(ImproperRotation(label, vec, angle))
+        elif name == 'inversion':
+            self.operations.append(Inversion())
         else:
             raise Exception('Unknown operation: %s' % name)
     
@@ -104,3 +71,84 @@ class SymmetryOperations:
                     if idx == -1:
                         raise Exception('Cannot perform this operation')
                     self.operation_matrices[k,i,idx] = v
+
+class Operation:
+    """
+    Base operation class
+    """
+    def __init__(self, name):
+        self.name = name
+        
+    def set_atomic_id(self, idx):
+        self.atomid = idx
+
+class Identity(Operation):
+    """
+    Identity operation "E"
+    """
+    def __init__(self):
+        super().__init__('E')
+
+    def get_matrix(self):
+        return np.identity(3)
+    
+    def get_wigner_matrix(self, l):
+        return np.identity(2*l+1)
+    
+class Inversion(Operation):
+    """
+    Identity operation "i"
+    """
+    def __init__(self):
+        super().__init__('i')
+
+    def get_matrix(self):
+        return -np.identity(3)
+    
+    def get_wigner_matrix(self, l):
+        return np.identity(2*l+1) * (-1)**l
+
+class Rotation(Operation):
+    """
+    Rotation operation "C"
+    """
+    def __init__(self, label, axis, angle):
+        super().__init__('C' + label)
+        self.axis = axis / np.linalg.norm(axis)
+        self.angle = angle
+        self.robj = R.from_rotvec(self.axis * self.angle)
+        
+    def get_matrix(self):
+        return self.robj.as_matrix()
+    
+    def get_wigner_matrix(self, l):
+        return tesseral_wigner_D(l, self.robj)
+        
+class Mirror(Operation):
+    """
+    Rotation operation "σ"
+    """
+    def __init__(self, label, normal):
+        super().__init__('σ' + label)
+        self.normal = normal
+        
+    def get_matrix(self):
+        return np.identity(3) - 2 * np.outer(self.normal, self.normal)
+    
+    def get_wigner_matrix(self, l):
+        return tesseral_wigner_D_mirror(l, self.normal)
+        
+class ImproperRotation(Operation):
+    """
+    Rotation operation "S"
+    """
+    def __init__(self, label, axis, angle):
+        super().__init__('sigma' + label)
+        self.axis = axis / np.linalg.norm(axis)
+        self.angle = angle
+        self.robj = R.from_rotvec(self.axis * self.angle)
+        
+    def get_matrix(self):
+        M = np.identity(3) - 2.0 * self.normal @ self.normal.transpose()
+        R = self.robj.as_matrix()
+        return M @ R

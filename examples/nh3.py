@@ -7,7 +7,7 @@ import numpy as np
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from sphecerix import Molecule, BasisFunction, SymmetryOperations
+from sphecerix import Molecule, BasisFunction, SymmetryOperations, visualize_matrices
 
 def main():
     mol = Molecule()
@@ -30,10 +30,15 @@ def main():
     symops.add('identity')
     symops.add('rotation', '3+', np.array([0,0,1]), 2.0 * np.pi / 3)
     symops.add('rotation', '3-', -np.array([0,0,1]), 2.0 * np.pi / 3)
+    
+    for i in range(0,3):
+        symops.add('mirror', 'v1', np.array([np.cos(i * 2.0 * np.pi / 3),
+                                             np.sin(i * 2.0 * np.pi / 3),
+                                             0.0]))
 
     symops.run()
-    print(symops.atomic_transformations)
-    print(symops.operation_matrices[2])
+    
+    visualize_matrices(symops, xlabelrot=90, figsize=(9,6))
 
 if __name__ == '__main__':
     main()

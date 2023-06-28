@@ -43,6 +43,7 @@ class Molecule:
             if atom[0] in molset.keys():
                 for bf in molset[atom[0]]:
                     abf = deepcopy(bf)
+                    abf.name = atom[0] + bf.name
                     abf.r = np.array([atom[1][i] for i in range(3)])
                     abf.atomid = i
                     self.basis.append(abf)
