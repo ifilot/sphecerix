@@ -13,9 +13,7 @@ requirements:
   build:
     - numpy>=1.21
     - python>=3.9
-    - matplotlib
     - scipy
-    - fonttools
 
   host:
     - pip
@@ -23,22 +21,18 @@ requirements:
     - setuptools<=58.2.0
     - numpy>=1.21
     - scipy
-    - matplotlib
-    - fonttools
 
   run:
     - python>=3.9
     - numpy>=1.21
     - scipy
     - matplotlib
-    - fonttools
 
 test:
   requires:
     - numpy
     - scipy
     - matplotlib
-    - fonttools
     - setuptools<=58.2.0
     - nose
   source_files:
