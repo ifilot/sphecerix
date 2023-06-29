@@ -20,11 +20,13 @@ requirements:
     - setuptools<=58.2.0
     - numpy>=1.21
     - scipy
+    - matplotlib
 
   run:
     - python>=3.9
     - numpy>=1.21
     - scipy
+    - matplotlib
 
 test:
   requires:
