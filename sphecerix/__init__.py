@@ -6,5 +6,6 @@ from .molecule import Molecule
 from .basis_functions import BasisFunction
 from .symmetry_operations import *
 from .matrixplot import plot_matrix, visualize_matrices
+from .character_table import CharacterTable
 
 from ._version import __version__

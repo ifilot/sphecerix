@@ -7,7 +7,8 @@ import numpy as np
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from sphecerix import Molecule, BasisFunction, SymmetryOperations, visualize_matrices
+from sphecerix import Molecule, BasisFunction, SymmetryOperations, \
+                      visualize_matrices, CharacterTable
 
 def main():
     mol = Molecule()
@@ -39,6 +40,10 @@ def main():
     symops.run()
     
     visualize_matrices(symops, xlabelrot=90, figsize=(9,6))
+    
+    # print result LOT
+    ct = CharacterTable('c3v')
+    print(ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2)))
 
 if __name__ == '__main__':
     main()
