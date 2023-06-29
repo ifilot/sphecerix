@@ -1,6 +1,6 @@
 package:
   name: "sphecerix"
-  version: "0.4.0"
+  version: "0.5.0"
 
 source:
   path: .
@@ -13,11 +13,12 @@ requirements:
   build:
     - numpy>=1.21
     - python>=3.9
+    - scipy
 
   host:
     - pip
     - python>=3.9
-    - setuptools
+    - setuptools<=58.2.0
     - numpy>=1.21
     - scipy
 
@@ -25,15 +26,18 @@ requirements:
     - python>=3.9
     - numpy>=1.21
     - scipy
+    - matplotlib
 
 test:
   requires:
     - numpy
     - scipy
-    - setuptools
+    - matplotlib
+    - setuptools<=58.2.0
     - nose
   source_files:
     - tests/*.py
+    - tests/results/*.npy
   commands:
     - nosetests tests --exclude="test_wave_functions.py"
 
