@@ -7,5 +7,6 @@ from .basis_functions import BasisFunction
 from .symmetry_operations import *
 from .matrixplot import plot_matrix, visualize_matrices
 from .character_table import CharacterTable
+from .projection_operator import ProjectionOperator
 
 from ._version import __version__

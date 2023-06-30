@@ -18,9 +18,8 @@ class CharacterTable:
         
         # build expanded table
         self.expandedtable = np.zeros((self.nrgroups, self.order), dtype=np.int64)
-        ctr = 0
-        for i,g in enumerate(self.chartablelib['symmetry_groups']):
-            idx = 0
+        for i,g in enumerate(self.chartablelib['symmetry_groups']): # loop over irreps
+            idx = 0 # loop over operations
             for j,c in enumerate(self.chartablelib['classes']):
                 for k in range(c['multiplicity']):
                     self.expandedtable[i,idx] = g['characters'][j]
@@ -28,4 +27,9 @@ class CharacterTable:
         
     def lot(self, traces):
         return np.round(self.expandedtable @ traces / self.order)
-        
+    
+    def get_label_irrep(self, irrep_idx):
+        return self.chartablelib['symmetry_groups'][irrep_idx]['symbol']
+    
+    def get_character(self, irrep_idx, op_idx):
+        return self.expandedtable[irrep_idx, op_idx]

@@ -7,7 +7,8 @@ import numpy as np
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from sphecerix import Molecule, BasisFunction, SymmetryOperations, visualize_matrices
+from sphecerix import Molecule, BasisFunction, SymmetryOperations,\
+                      visualize_matrices, CharacterTable, ProjectionOperator
 
 def main():
     mol = Molecule()
@@ -40,8 +41,24 @@ def main():
 
     symops.run()
     
-    visualize_matrices(symops, xlabelrot=90, figsize=(18,10), numcols=4)
+    visualize_matrices(symops.operation_matrices, 
+                       [op.name for op in  symops.operations],
+                       [bf.name for bf in symops.mol.basis], 
+                       xlabelrot=90, figsize=(18,10), numcols=4)
 
+    # print result LOT
+    ct = CharacterTable('d2h')
+    print(ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2)))
+    
+    # apply projection operator
+    po = ProjectionOperator(ct, symops)
+    mos = po.build_mos()
+    newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
+    
+    visualize_matrices(newmats, 
+                       [op.name for op in  symops.operations],
+                       ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
+                       figsize=(18,10), numcols=4)
 
 if __name__ == '__main__':
     main()

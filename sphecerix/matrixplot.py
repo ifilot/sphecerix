@@ -4,23 +4,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.patches as patches
 
-def visualize_matrices(symops, numcols = 3,
+def visualize_matrices(matrices, opnames, labels, numcols = 3,
                        highlight_groups = None, filename = None,
                        figsize=(7,5), xlabelrot = 0):
     """
     Visualize matrix representations of the symmetry operations
     """
     # grab data
-    matrices = symops.operation_matrices
-    operations = symops.operations
-    bfs = symops.mol.basis
-    
-    fig, ax = plt.subplots(len(operations) // numcols, 
+    fig, ax = plt.subplots(len(matrices) // numcols, 
                            numcols, dpi=144, figsize=figsize)
     
-    for i,(op,mat) in enumerate(zip(operations,matrices)):
+    for i,(opname,mat) in enumerate(zip(opnames,matrices)):
         axh = ax[i//numcols, i%numcols]
-        plot_matrix(axh, mat, bfs, title=op.name, xlabelrot = xlabelrot)
+        plot_matrix(axh, mat, labels, title=opname, xlabelrot = xlabelrot)
         
         if highlight_groups:
             plot_highlight_groups(axh, highlight_groups, mat)
@@ -64,7 +60,7 @@ def plot_highlight_groups(axh, groups, mat):
         cum += g
 
 
-def plot_matrix(ax, mat, bfs, title = None, xlabelrot = 0):
+def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0):
     """
     Produce plot of matrix
     """
@@ -81,7 +77,6 @@ def plot_matrix(ax, mat, bfs, title = None, xlabelrot = 0):
               color='black', linestyle='--', linewidth=1)
     
     # add basis functions as axes labels
-    labels = [bf.name for bf in bfs]
     ax.set_xticks(np.arange(0, mat.shape[0]))
     ax.set_xticklabels(labels, rotation=xlabelrot)
     ax.set_yticks(np.arange(0, mat.shape[0]))
