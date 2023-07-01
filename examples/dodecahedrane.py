@@ -5,6 +5,7 @@ import os
 import numpy as np
 from itertools import combinations
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -102,37 +103,53 @@ def main():
     ct = CharacterTable('ih')
     print(ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2)))
     
-    # visualize_matrices(symops.operation_matrices[0:10], 
-    #                     [op.name for op in symops.operations[0:10]],
-    #                     [bf.name for bf in symops.mol.basis], 
-    #                     xlabelrot=90, figsize=(20,10), numcols=5)
-    
     # apply projection operator
     po = ProjectionOperator(ct, symops)
     mos = po.build_mos(verbose=True)
     newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
     
-    # visualize_matrices(newmats, 
-    #                    [op.name for op in  symops.operations],
-    #                    ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-    #                    figsize=(18,10), numcols=4)
-
-    fig, ax = plt.subplots(1,2,dpi=144,figsize=(45,45))
+    # construct some fancy labels to put above the plots
+    plotlabels = []
+    plotlabels.append(r'$E$')
+    for i in range(0,12):
+        plotlabels.append(r'$C_{5},(%i)$' % (i+1))
+    for i in range(0,12):
+        plotlabels.append(r'$C_{5}^{2},(%i)$' % (i+1))
+    for i in range(0,20):
+        plotlabels.append(r'$C_{3},(%i)$' % (i+1))
+    for i in range(0,15):
+        plotlabels.append(r'$C_{2},(%i)$' % (i+1))
+    plotlabels.append(r'$i$')
+    for i in range(0,12):
+        plotlabels.append(r'$S_{10},(%i)$' % (i+1))
+    for i in range(0,12):
+        plotlabels.append(r'$S_{10}^{3},(%i)$' % (i+1))
+    for i in range(0,20):
+        plotlabels.append(r'$S_{6},(%i)$' % (i+1))
+    for i in range(0,15):
+        plotlabels.append(r'$\sigma,(%i)$' % (i+1))
     
-    op_idx = 5
-    plot_matrix(ax[0], 
-                symops.operation_matrices[op_idx],
-                [bf.name for bf in symops.mol.basis],
-                symops.operations[op_idx].name,
-                0)
-    
-    plot_matrix(ax[1], newmats[op_idx],
-                ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                symops.operations[op_idx].name,
-                0,
-                highlight_groups=po.get_blocks())
-
-    plt.tight_layout()
+    for op_idx in tqdm(range(len(plotlabels))):
+        #print('Plotting %s' % plotlabels[op_idx])
+        fig, ax = plt.subplots(1,1,dpi=144,figsize=(25,25))
+        plot_matrix(ax, 
+                    symops.operation_matrices[op_idx],
+                    [bf.name for bf in symops.mol.basis],
+                    plotlabels[op_idx],
+                    titlefontsize=40)
+        plt.tight_layout()
+        plt.savefig('figures/matR_%03i.png' % op_idx)
+        plt.close()
+        
+        fig, ax = plt.subplots(1,1,dpi=144,figsize=(25,25))
+        plot_matrix(ax, newmats[op_idx],
+                    ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
+                    plotlabels[op_idx],
+                    titlefontsize=40,
+                    highlight_groups=po.get_blocks())
+        plt.tight_layout()
+        plt.savefig('figures/matTRTt_%03i.png' % op_idx)
+        plt.close()
 
 if __name__ == '__main__':
     main()

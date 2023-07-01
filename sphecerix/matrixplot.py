@@ -78,7 +78,7 @@ def plot_highlight_groups(axh, blocks, mat):
 
 
 def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0, 
-                highlight_groups = None):
+                highlight_groups = None, **kwargs):
     """
     Produce plot of matrix
     """
@@ -103,7 +103,11 @@ def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0,
     
     # add title if supplied
     if title:
-        ax.set_title(title)
+        if 'titlefontsize' in kwargs:
+            titlefontsize = kwargs['titlefontsize']
+            ax.set_title(title, fontsize=titlefontsize)
+        else:
+            ax.set_title(title)
         
     if highlight_groups is not None:
         plot_highlight_groups(ax, highlight_groups, mat)
