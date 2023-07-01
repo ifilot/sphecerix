@@ -65,9 +65,9 @@ def main():
     symops.run()
     
     visualize_matrices(symops.operation_matrices, 
-                       [op.name for op in  symops.operations],
-                       [bf.name for bf in symops.mol.basis], 
-                       xlabelrot=90, figsize=(18,12), numcols=6)
+                        [op.name for op in  symops.operations],
+                        [bf.name for bf in symops.mol.basis], 
+                        xlabelrot=90, figsize=(18,12), numcols=6)
     
     # print result LOT
     ct = CharacterTable('td')
@@ -75,13 +75,14 @@ def main():
     
     # # apply projection operator
     po = ProjectionOperator(ct, symops)
-    mos = po.build_mos()
+    mos = po.build_mos(verbose=True)
     newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
     
     visualize_matrices(newmats, 
                         [op.name for op in  symops.operations],
                         ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                        xlabelrot=90, figsize=(18,12), numcols=6)
+                        xlabelrot=90, figsize=(18,12), numcols=6,
+                        highlight_groups=po.get_block_sizes())
 
 if __name__ == '__main__':
     main()

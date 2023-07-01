@@ -4,12 +4,14 @@ import sys
 import os
 import numpy as np
 from itertools import combinations
+import matplotlib.pyplot as plt
 
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from sphecerix import Molecule, BasisFunction, SymmetryOperations,\
-                      visualize_matrices, CharacterTable, ProjectionOperator
+                      visualize_matrices, CharacterTable, ProjectionOperator,\
+                      plot_matrix
 
 def main():
     mol = Molecule()
@@ -17,10 +19,11 @@ def main():
     
     molset = {
         'C': [BasisFunction(1,0,0),
-              BasisFunction(2,0,0),
-              BasisFunction(2,1,1),
-              BasisFunction(2,1,-1),
-              BasisFunction(2,1,0)],
+              #BasisFunction(2,0,0),
+              #BasisFunction(2,1,1),
+              #BasisFunction(2,1,-1),
+              #BasisFunction(2,1,0)],
+              ],
         'H': [BasisFunction(1,0,0)]
     }
     mol.build_basis(molset)
@@ -105,15 +108,25 @@ def main():
     #                     [bf.name for bf in symops.mol.basis], 
     #                     xlabelrot=90, figsize=(20,10), numcols=5)
     
-    # # apply projection operator
-    # po = ProjectionOperator(ct, symops)
-    # mos = po.build_mos()
-    # newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
+    # apply projection operator
+    po = ProjectionOperator(ct, symops)
+    mos = po.build_mos()
+    newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
     
     # visualize_matrices(newmats, 
     #                    [op.name for op in  symops.operations],
     #                    ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
     #                    figsize=(18,10), numcols=4)
+
+    fig, ax = plt.subplots(1,2,dpi=144,figsize=(25,15))
+    
+    plot_matrix(ax[0], symops.operation_matrices[5],[bf.name for bf in symops.mol.basis],None,0)
+    
+    plot_matrix(ax[1], newmats[5],
+                ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
+                None,0,highlight_groups=po.get_block_sizes())
+
+    plt.tight_layout()
 
 if __name__ == '__main__':
     main()

@@ -14,21 +14,24 @@ class ProjectionOperator:
         self.so = so # symmetry operations
         self.groups = None
         self.irreps = None
+        self.block_sizes = None
         
     def collect(self):
         """
         Construct groups of basis functions that can transform among each
         other and figure out which irreps these span
         """
-        # create one logical matrix that shows the interaction
+        # Create one logical matrix that shows which basis functions are allowed
+        # to mix with which other basis functions for any of the symmetry operations
+        # that are part of the group.
         groupmatrix = np.zeros_like(self.so.operation_matrices[0], dtype=np.bool8)
         for m in self.so.operation_matrices:
             bm = np.abs(m) > 1e-9
             groupmatrix = np.logical_or(groupmatrix, bm)
         
-        #print(groupmatrix)
-        
-        # collect the groups
+        # Collect all the groups of basis functions that mix with one another.
+        # These groups contain duplicates because when A mixes with B, B also
+        # mixes with A.
         self.groups = []
         for i,row in enumerate(groupmatrix):
             if np.sum(row) > 1:
@@ -37,18 +40,25 @@ class ProjectionOperator:
             else:
                 self.groups.append(np.array([i], dtype=np.int64))
         
-        # create unique list
+        # Create unique lists of these groups.
         self.groups = np.array(self.groups, dtype=object)
         res = Counter(map(tuple, self.groups))
         self.groups = [r for r in res]
         
-        # determine irreps per lips
+        # Determine irreps per unique group.
         self.irreps = []
+        self.irreplabels = []
+        self.block_sizes = []
         for g in self.groups:
             chars = [np.sum(np.take(np.diagonal(m),g)) for m in self.so.operation_matrices]
             self.irreps.append(self.ct.lot(chars))
+            
+            for j,irrepdim in enumerate(self.irreps[-1]):
+                for k in range(int(irrepdim)):
+                    # get character under E and store this
+                    self.block_sizes.append(self.ct.chartablelib['symmetry_groups'][j]['characters'][0])
         
-    def build_mos(self):
+    def build_mos(self, verbose=False):
         # check if groups have been collected
         if self.groups is None:
             self.collect()
@@ -57,12 +67,22 @@ class ProjectionOperator:
         self.mos = np.zeros((len(self.so.mol.basis), len(self.so.mol.basis)),
                             dtype=np.float64)
         mo_idx = 0
-        for g,irreplist in zip(self.groups,self.irreps):
+        for g,irreplist in zip(self.groups,self.irreps): # loop over the groups
+        
+            if verbose:
+                print('Group: ', g)
+                print('Irreps:')
+        
             for j,irrep in enumerate(irreplist): # loop over irreps
             
                 # early exit if there are no irreps of this type
                 if irrep == 0:
                     continue
+                
+                if verbose:
+                    label = self.ct.get_label_irrep(j)
+                    print('  - %s: %i' % (label, irrep))
+                    
             
                 irrep_e = self.ct.get_character(j,0) # get dimensionality of irrep
                 
@@ -76,8 +96,16 @@ class ProjectionOperator:
                 if len(irrepres) > 1:
                     S = irrepres @ irrepres.transpose()
                     e,v = np.linalg.eigh(S)
-                    X = v @ np.diag(1.0 / np.sqrt(e)) @ v.transpose()
-                    irrepres = X @ irrepres
+                    
+                    # for symmetric orthogonalization:
+                    #    X = v @ np.diag(1.0 / np.sqrt(e)) @ v.transpose()
+                    #    irrepres = X @ irrepres
+                    # for canonical orthogonalization:
+                    #    X = v @ np.diag(1.0 / np.sqrt(e))
+                    #    irrepres = X.transpose() @ irrepres
+                    
+                    X = v @ np.diag(1.0 / np.sqrt(e))
+                    irrepres = X.transpose() @ irrepres
                     
                     for mo in irrepres:
                         self.mos[mo_idx] = mo
@@ -99,3 +127,24 @@ class ProjectionOperator:
 
         # return result and normalize it
         return np.array(res, dtype=np.float64) / np.linalg.norm(res)
+    
+    def get_block_sizes(self):
+        """
+        Get the block sizes of the block-diagonal matrix after the matrix
+        transformation in the MO basis
+        """
+        return self.block_sizes
+    
+    def check_transformation(self):
+        return
+        newmats = [self.mos @ m @ self.mos.transpose() for m in self.so.operation_matrices]
+        
+        idx = 0
+        for c in range(self.ct.nr_classes): # loop over classes
+            for m in range(self.ct.classes[c]['multiplicity']):
+                mat = newmats[idx]
+                
+                # check blocks for mat
+                idx2 = 0
+                
+                idx += 1

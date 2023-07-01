@@ -60,7 +60,8 @@ def plot_highlight_groups(axh, groups, mat):
         cum += g
 
 
-def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0):
+def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0, 
+                highlight_groups = None):
     """
     Produce plot of matrix
     """
@@ -86,4 +87,7 @@ def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0):
     # add title if supplied
     if title:
         ax.set_title(title)
+        
+    if highlight_groups is not None:
+        plot_highlight_groups(ax, highlight_groups, mat)
     
