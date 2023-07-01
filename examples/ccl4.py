@@ -3,20 +3,22 @@
 import sys
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 # add a reference to load the Sphecerix library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from sphecerix import Molecule, BasisFunction, SymmetryOperations,\
-                      visualize_matrices, CharacterTable, ProjectionOperator
+                      visualize_matrices, CharacterTable, ProjectionOperator, \
+                      plot_matrix
 
 def main():
     mol = Molecule()
     mol.add_atom('C', 0.0,  0.0, 0.0, unit='angstrom')
-    mol.add_atom('H', 1,1,1, unit='angstrom')
-    mol.add_atom('H', 1,-1,-1, unit='angstrom')
-    mol.add_atom('H', -1,1,-1, unit='angstrom')
-    mol.add_atom('H', -1,-1,1, unit='angstrom')
+    mol.add_atom('Cl', 1,1,1, unit='angstrom')
+    mol.add_atom('Cl', 1,-1,-1, unit='angstrom')
+    mol.add_atom('Cl', -1,1,-1, unit='angstrom')
+    mol.add_atom('Cl', -1,-1,1, unit='angstrom')
     
     molset = {
         'C': [BasisFunction(1,0,0),
@@ -24,7 +26,10 @@ def main():
               BasisFunction(2,1,1),
               BasisFunction(2,1,-1),
               BasisFunction(2,1,0)],
-        'H': [BasisFunction(1,0,0)]
+        'Cl': [BasisFunction(1,0,0),
+               BasisFunction(2,1,1),
+               BasisFunction(2,1,-1),
+               BasisFunction(2,1,0)]
     }
     mol.build_basis(molset)
     
@@ -67,7 +72,7 @@ def main():
     visualize_matrices(symops.operation_matrices, 
                         [op.name for op in  symops.operations],
                         [bf.name for bf in symops.mol.basis], 
-                        xlabelrot=90, figsize=(18,12), numcols=6)
+                        xlabelrot=90, figsize=(36,24), numcols=6)
     
     # print result LOT
     ct = CharacterTable('td')
@@ -76,12 +81,16 @@ def main():
     # # apply projection operator
     po = ProjectionOperator(ct, symops)
     mos = po.build_mos(verbose=True)
+    
+    fig, ax = plt.subplots(1,1,dpi=144,figsize=(20,20))
+    plot_matrix(ax, mos,[bf.name for bf in symops.mol.basis],None,0)
+    
     newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
     
     visualize_matrices(newmats, 
                         [op.name for op in  symops.operations],
                         ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                        xlabelrot=90, figsize=(18,12), numcols=6,
+                        xlabelrot=90, figsize=(36,24), numcols=6,
                         highlight_groups=po.get_blocks())
 
 if __name__ == '__main__':

@@ -18,12 +18,11 @@ def main():
     mol.from_file('molecules/dodecahedrane.xyz')
     
     molset = {
-        'C': [BasisFunction(1,0,0),
+        'C': [#BasisFunction(1,0,0),
               #BasisFunction(2,0,0),
-              #BasisFunction(2,1,1),
-              #BasisFunction(2,1,-1),
-              #BasisFunction(2,1,0)],
-              ],
+              BasisFunction(2,1,1),
+              BasisFunction(2,1,-1),
+              BasisFunction(2,1,0)],
         'H': [BasisFunction(1,0,0)]
     }
     mol.build_basis(molset)
@@ -110,7 +109,7 @@ def main():
     
     # apply projection operator
     po = ProjectionOperator(ct, symops)
-    mos = po.build_mos()
+    mos = po.build_mos(verbose=True)
     newmats = [mos @ m @ mos.transpose() for m in symops.operation_matrices]
     
     # visualize_matrices(newmats, 
@@ -118,13 +117,13 @@ def main():
     #                    ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
     #                    figsize=(18,10), numcols=4)
 
-    fig, ax = plt.subplots(1,2,dpi=144,figsize=(25,15))
+    fig, ax = plt.subplots(1,2,dpi=144,figsize=(45,45))
     
     plot_matrix(ax[0], symops.operation_matrices[5],[bf.name for bf in symops.mol.basis],None,0)
     
     plot_matrix(ax[1], newmats[5],
                 ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                None,0,highlight_groups=po.get_block_sizes())
+                None,0,highlight_groups=po.get_blocks())
 
     plt.tight_layout()
 

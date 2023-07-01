@@ -28,23 +28,24 @@ def visualize_matrices(matrices, opnames, labels, numcols = 3,
         plt.savefig(filename)
         plt.close()
 
-def plot_highlight_groups(axh, groups, mat):
+def plot_highlight_groups(axh, blocks, mat):
     # add semitransparent hash
+    sumblocks = np.sum(g[0] for g in blocks)
     cum = 0
-    for g in groups:
-        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g, g, 
+    for g in blocks:
+        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g[0], g[0], 
                                  linewidth=1,
                                  zorder=5,
                                  fill = None,
                                  hatch='///',
                                  alpha=0.5)
         axh.add_patch(rect)
-        cum += g
+        cum += g[0]
         
     # add red outline
     cum = 0
-    for g in groups:
-        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g, g, 
+    for g in blocks:
+        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g[0], g[0], 
                                  linewidth=1.5, edgecolor='red',
                                  linestyle='solid',
                                  facecolor='none',
@@ -52,12 +53,28 @@ def plot_highlight_groups(axh, groups, mat):
                                  alpha=1.0)
         axh.add_patch(rect)
         
-        axh.text(cum+g/2-0.5, cum+g/2-0.5, '%i' % round(np.trace(mat[cum:cum+g,cum:cum+g])),
+        axh.text(cum+g[0]/2-0.5, cum+g[0]/2-0.5, '%i' % round(np.trace(mat[cum:cum+g[0],cum:cum+g[0]])),
                  color='red', horizontalalignment='center', verticalalignment='center',
                  bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ),
                  zorder=6)
         
-        cum += g
+        k = (cum+1) > sumblocks/2
+        
+        if k:
+            label = r'%i $\times$ %s $\rightarrow$' % (g[1],g[2])
+        else:
+            label = r'$\leftarrow$ %i $\times$ %s' % (g[1],g[2])
+        
+        axh.text(cum+(-0.75 if k else g[0] - 0.25), cum+g[0]/2-0.5, 
+                 label,
+                 fontsize=6,
+                 color='red', 
+                 horizontalalignment='right' if k else 'left', 
+                 verticalalignment='center',
+                 bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ),
+                 zorder=6)
+        
+        cum += g[0]
 
 
 def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0, 

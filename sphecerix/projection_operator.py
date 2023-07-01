@@ -2,6 +2,7 @@
 
 import numpy as np
 from collections import Counter
+import random
 
 class ProjectionOperator:
     
@@ -49,14 +50,15 @@ class ProjectionOperator:
         self.irreps = []
         self.irreplabels = []
         self.block_sizes = []
+        self.blocks = []
         for g in self.groups:
             chars = [np.sum(np.take(np.diagonal(m),g)) for m in self.so.operation_matrices]
             self.irreps.append(self.ct.lot(chars))
             
             for j,irrepdim in enumerate(self.irreps[-1]):
-                for k in range(int(irrepdim)):
-                    # get character under E and store this
-                    self.block_sizes.append(self.ct.chartablelib['symmetry_groups'][j]['characters'][0])
+                if irrepdim > 0:
+                    self.block_sizes.append(int(irrepdim * self.ct.chartablelib['symmetry_groups'][j]['characters'][0]))
+                    self.blocks.append((self.block_sizes[-1], irrepdim, self.ct.get_label_irrep(j)))
         
     def build_mos(self, verbose=False):
         # check if groups have been collected
@@ -68,6 +70,8 @@ class ProjectionOperator:
                             dtype=np.float64)
         mo_idx = 0
         for g,irreplist in zip(self.groups,self.irreps): # loop over the groups
+        
+            bf_idx = 0
         
             if verbose:
                 print('Group: ', g)
@@ -83,19 +87,29 @@ class ProjectionOperator:
                     label = self.ct.get_label_irrep(j)
                     print('  - %s: %i' % (label, irrep))
                     
-            
                 irrep_e = self.ct.get_character(j,0) # get dimensionality of irrep
-                
                 irrepres = np.zeros((int(irrep * irrep_e), len(self.so.mol.basis)))
-                for k in range(int(irrep * irrep_e)): # loop over times the irrep is present
-                    #label = self.ct.get_label_irrep(j)
-                    res = self.apply_projection_operator(g[k], j)
-                    irrepres[k,:] = res
+                zero_modes = True
+
+                while zero_modes: # keep on looping until no zero eigenvalues are found
+                    bf_indices = random.sample(g, int(irrep * irrep_e))
+                    for k in range(int(irrep * irrep_e)): # loop over times the irrep is present
+                        #label = self.ct.get_label_irrep(j)
+                        res = self.apply_projection_operator(bf_indices[k], j)
+                        irrepres[k,:] = res
+                        bf_idx += 1
+                    
+                        S = irrepres @ irrepres.transpose()
+                        e,v = np.linalg.eigh(S)
+                    
+                        #print('Trying: ', e)
+                        zero_modes = np.any(np.abs(e) < 1e-2)
                 
                 # perform orthogonalization if the irrep space is larger than 1
                 if len(irrepres) > 1:
                     S = irrepres @ irrepres.transpose()
                     e,v = np.linalg.eigh(S)
+                    #print(e)
                     
                     # for symmetric orthogonalization:
                     #    X = v @ np.diag(1.0 / np.sqrt(e)) @ v.transpose()
@@ -134,6 +148,9 @@ class ProjectionOperator:
         transformation in the MO basis
         """
         return self.block_sizes
+    
+    def get_blocks(self):
+        return self.blocks
     
     def check_transformation(self):
         return
