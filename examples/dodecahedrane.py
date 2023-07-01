@@ -119,11 +119,18 @@ def main():
 
     fig, ax = plt.subplots(1,2,dpi=144,figsize=(45,45))
     
-    plot_matrix(ax[0], symops.operation_matrices[5],[bf.name for bf in symops.mol.basis],None,0)
+    op_idx = 5
+    plot_matrix(ax[0], 
+                symops.operation_matrices[op_idx],
+                [bf.name for bf in symops.mol.basis],
+                symops.operations[op_idx].name,
+                0)
     
-    plot_matrix(ax[1], newmats[5],
+    plot_matrix(ax[1], newmats[op_idx],
                 ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                None,0,highlight_groups=po.get_blocks())
+                symops.operations[op_idx].name,
+                0,
+                highlight_groups=po.get_blocks())
 
     plt.tight_layout()
 
