@@ -27,6 +27,7 @@ requirements:
     - numpy>=1.21
     - scipy
     - matplotlib
+    - networkx
 
 test:
   requires:
@@ -35,6 +36,7 @@ test:
     - matplotlib
     - setuptools<=58.2.0
     - nose
+    - networkx
   source_files:
     - tests/*.py
     - tests/results/*.npy

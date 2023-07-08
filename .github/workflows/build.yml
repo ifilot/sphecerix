@@ -14,9 +14,6 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
-        yum -y install eigen3-devel libgomp glm-devel
-        yum -y install mlocate
-        yum -y install gcc
         ls -alh /opt/python/cp*
         /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest scipy pylebedev matplotlib
     - name: Checkout repo
@@ -25,7 +22,7 @@ jobs:
       run: /opt/python/cp39*/bin/python setup.py bdist_wheel
     - name: Test
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install numpy scipy nose pylebedev matplotlib
+        /opt/python/cp39-cp39/bin/python -m pip install numpy scipy nose pylebedev matplotlib networkx
         /opt/python/cp39-cp39/bin/pip install sphecerix --no-index -f ./dist
         /opt/python/cp39-cp39/bin/pytest --verbose tests
     - name: Archive wheels

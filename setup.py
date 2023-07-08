@@ -40,5 +40,5 @@ setup(
     ],
     python_requires='>=3.5',
     zip_safe=False,
-    install_requires=['numpy','scipy'],
+    install_requires=['numpy','scipy','networkx'],
 )
