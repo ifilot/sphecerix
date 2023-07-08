@@ -3,10 +3,11 @@
 import numpy as np
 from collections import Counter
 import random
+import networkx as nx
 
 class ProjectionOperator:
     
-    def __init__(self, ct, so):
+    def __init__(self, ct, so, tolerance=1e-4):
         #
         # ToDo: assert that the objects have the right type
         #
@@ -16,6 +17,7 @@ class ProjectionOperator:
         self.groups = None
         self.irreps = None
         self.block_sizes = None
+        self.tolerance = tolerance
         
     def collect(self):
         """
@@ -27,43 +29,27 @@ class ProjectionOperator:
         # that are part of the group.
         groupmatrix = np.zeros_like(self.so.operation_matrices[0], dtype=np.bool8)
         for m in self.so.operation_matrices:
-            bm = np.abs(m) > 1e-9
+            bm = np.abs(m) > self.tolerance
             groupmatrix = np.logical_or(groupmatrix, bm)
         
-        # Collect all the groups of basis functions that mix with one another.
-        # These groups contain duplicates because when A mixes with B, B also
-        # mixes with A.
-        self.groups = []
+        # Build a graph for all basis functions that can be transformed into
+        # each other
+        G = nx.Graph()
         for i,row in enumerate(groupmatrix):
+            G.add_node(i)
             if np.sum(row) > 1:
                 idx = np.where(row)[0]
-                self.groups.append(np.array(idx, dtype=np.int64))
-            else:
-                self.groups.append(np.array([i], dtype=np.int64))
-        
-        # Create unique lists of these groups.
-        self.groups = np.array(self.groups, dtype=object)
-        res = Counter(map(tuple, self.groups))
-        self.groups = [r for r in res]
-        
-        # Determine irreps per unique group.
-        self.irreps = []
-        self.irreplabels = []
-        self.block_sizes = []
-        self.blocks = []
-        for g in self.groups:
-            chars = [np.sum(np.take(np.diagonal(m),g)) for m in self.so.operation_matrices]
-            self.irreps.append(self.ct.lot(chars))
+                for j in idx:
+                    G.add_edge(i,j)
             
-            for j,irrepdim in enumerate(self.irreps[-1]):
-                if irrepdim > 0:
-                    self.block_sizes.append(int(irrepdim * self.ct.chartablelib['symmetry_groups'][j]['characters'][0]))
-                    self.blocks.append((self.block_sizes[-1], irrepdim, self.ct.get_label_irrep(j)))
+        self.groups = [tuple(c) for c in nx.connected_components(G)]
+        print(self.groups)
         
     def build_mos(self, verbose=False):
         # check if groups have been collected
         if self.groups is None:
             self.collect()
+        self.build_irreps()
 
         # build molecular orbitals
         self.mos = np.zeros((len(self.so.mol.basis), len(self.so.mol.basis)),
@@ -75,6 +61,7 @@ class ProjectionOperator:
         
             if verbose:
                 print('Group: ', g)
+                print('       ', [self.so.mol.basis[i].name for i in g])
                 print('Irreps:')
         
             for j,irrep in enumerate(irreplist): # loop over irreps
@@ -130,6 +117,20 @@ class ProjectionOperator:
                      
         return self.mos
         
+    def build_irreps(self):
+        # Determine irreps per unique group.
+        self.irreps = []
+        self.irreplabels = []
+        self.block_sizes = []
+        self.blocks = []
+        for g in self.groups:
+            chars = [np.sum(np.take(np.diagonal(m),g)) for m in self.so.operation_matrices]
+            self.irreps.append(self.ct.lot(chars))
+            
+            for j,irrepdim in enumerate(self.irreps[-1]):
+                if irrepdim > 0:
+                    self.block_sizes.append(int(irrepdim * self.ct.chartablelib['symmetry_groups'][j]['characters'][0]))
+                    self.blocks.append((self.block_sizes[-1], irrepdim, self.ct.get_label_irrep(j)))
                     
     def apply_projection_operator(self, bf_idx, irrep_idx):
         """

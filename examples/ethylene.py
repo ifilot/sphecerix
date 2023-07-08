@@ -58,7 +58,8 @@ def main():
     visualize_matrices(newmats, 
                        [op.name for op in  symops.operations],
                        ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
-                       figsize=(18,10), numcols=4)
+                       figsize=(18,10), numcols=4,
+                       highlight_groups=po.get_blocks())
 
 if __name__ == '__main__':
     main()

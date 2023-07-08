@@ -26,8 +26,11 @@ def main():
     mol.add_atom('H', -2.1385809090, -1.2347102666, 0.0000000000, unit='angstrom')
     
     molset = {
-        'C': [BasisFunction(2,0,0)],
-        'H': []
+        'C': [BasisFunction(2,0,0),
+              # BasisFunction(2,1,1),  # x
+              # BasisFunction(2,1,-1), # y
+              BasisFunction(2,1,0)], # z
+        'H': [BasisFunction(1,0,0)]
     }
     mol.build_basis(molset)
     
@@ -49,14 +52,14 @@ def main():
     
     # 3C2'
     for i in range(0,3):
-        symops.add('rotation', '2,%i' % i, np.array([np.sin(i * 2.0 * np.pi / 3),
-                                                      np.cos(i * 2.0 * np.pi / 3),
+        symops.add('rotation', '2,%i' % i, np.array([np.sin(2.0 * np.pi * i/6.),
+                                                      -np.cos(2.0 * np.pi * i/6.),
                                                       0.0]), np.pi)
     
     # 3C2''
     for i in range(0,3):
-        symops.add('rotation', '2,%i' % i, np.array([np.sin(i * 2.0 * np.pi * (1./3 + 1./6)),
-                                                      np.cos(i * 2.0 * np.pi * (1./3 + 1./6)),
+        symops.add('rotation', '2,%i' % i, np.array([np.sin(2.0 * np.pi * (i/6. + 1./12)),
+                                                      -np.cos(2.0 * np.pi * (i/6. + 1./12)),
                                                       0.0]), np.pi)
     
     
@@ -76,15 +79,15 @@ def main():
     
     # sigma_d
     for i in range(0,3):
-        symops.add('mirror', 'd,%i' % i, np.array([np.sin(i * 2.0 * np.pi * (1./3 + 1./6)),
-                                                      np.cos(i * 2.0 * np.pi * (1./3 + 1./6)),
-                                                      0.0]))
+        symops.add('mirror', 'd,%i' % i, np.array([np.cos(2.0 * np.pi * (i/6. + 1./12)),
+                                                   np.sin(2.0 * np.pi * (i/6. + 1./12)),
+                                                   0.0]))
     
     # sigma_v
     for i in range(0,3):
-        symops.add('mirror', 'v,%i' % i, np.array([np.cos(i * 2.0 * np.pi / 3),
-                                                      np.sin(i * 2.0 * np.pi / 3),
-                                                      0.0]))
+        symops.add('mirror', 'v,%i' % i, np.array([np.cos(2.0 * np.pi * i/6),
+                                                   np.sin(2.0 * np.pi * i/6),
+                                                   0.0]))
 
     symops.run()
     

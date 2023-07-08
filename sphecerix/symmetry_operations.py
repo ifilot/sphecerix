@@ -69,7 +69,7 @@ class SymmetryOperations:
                 for m,v in enumerate(mres):
                     idx = bfindices[atomid, bf.n, bf.l, m]
                     if idx == -1:
-                        raise Exception('Cannot perform this operation')
+                        continue
                     self.operation_matrices[k,i,idx] = v
 
 class Operation:

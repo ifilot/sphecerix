@@ -10,12 +10,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from sphecerix import Molecule, BasisFunction, SymmetryOperations,\
                       CharacterTable
 
-class TestEthyleneSymmetryOperations(unittest.TestCase):
+class TestMethaneSymmetryOperations(unittest.TestCase):
     """
-    Test all the symmetry operations under ethylene (D2h)
+    Test all the symmetry operations under methane (Td)
     """
 
-    def test_ethylene(self):
+    def test_methane(self):
         mol = Molecule()
         mol.add_atom('C', 0.0,  0.0, 0.0, unit='angstrom')
         mol.add_atom('H', 1,1,1, unit='angstrom')
