@@ -14,6 +14,7 @@ requirements:
     - numpy>=1.21
     - python>=3.9
     - scipy
+    - networkx
 
   host:
     - pip
@@ -21,6 +22,7 @@ requirements:
     - setuptools<=58.2.0
     - numpy>=1.21
     - scipy
+    - networkx
 
   run:
     - python>=3.9
