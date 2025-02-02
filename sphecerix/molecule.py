@@ -13,6 +13,21 @@ class Molecule:
         self.name = _name
         self.basis = None
 
+    def from_file(self, path, molname=None):
+        """
+        Build molecule from file and return it
+        """
+        self.name = molname
+
+        with open(path, 'r') as f:
+            lines = f.readlines()
+            
+            nratoms = int(lines[0].strip())
+
+            for line in lines[2:2+nratoms]:
+                pieces = line.split()
+                self.add_atom(pieces[0], float(pieces[1]), float(pieces[2]), float(pieces[3]), unit='angstrom')
+
     def __str__(self):
         res = "Molecule: %s\n" % self.name
         for atom in self.atoms:

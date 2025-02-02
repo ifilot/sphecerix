@@ -1,0 +1,31 @@
+{
+   "name":"c3v",
+   "classes": [
+       {
+           "symbol": "E",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C3",
+           "multiplicity": 2
+       },
+       {
+           "symbol": "sigma_v",
+           "multiplicity": 3
+       }
+   ],
+   "symmetry_groups": [
+       {
+           "symbol": "A1",
+           "characters": [1,1,1]
+       },
+       {
+           "symbol": "A2",
+           "characters": [1,1,-1]
+       },
+       {
+           "symbol": "E",
+           "characters": [2,-1,0]
+       }
+   ]
+}

@@ -1,0 +1,103 @@
+{
+   "name":"d6h",
+   "classes": [
+       {
+           "symbol": "E",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C6(z)",
+           "multiplicity": 2
+       },
+       {
+           "symbol": "C3",
+           "multiplicity": 2
+       },
+       {
+           "symbol": "C2",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C2'",
+           "multiplicity": 3
+       },
+       {
+           "symbol": "C2''",
+           "multiplicity": 3
+       },
+       {
+           "symbol": "i",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "S3",
+           "multiplicity": 2
+       },
+       {
+           "symbol": "S6",
+           "multiplicity": 2
+       },
+       {
+           "symbol": "sigma(h)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "sigma(d)",
+           "multiplicity": 3
+       },
+       {
+           "symbol": "sigma(v)",
+           "multiplicity": 3
+       }
+   ],
+   "symmetry_groups": [
+       {
+           "symbol": "A1g",
+           "characters": [1,1,1,1,1,1,1,1,1,1,1,1]
+       },
+       {
+           "symbol": "A2g",
+           "characters": [1,1,1,1,-1,-1,1,1,1,1,-1,-1]
+       },
+       {
+           "symbol": "B1g",
+           "characters": [1,-1,1,-1,1,-1,1,-1,1,-1,1,-1]
+       },
+       {
+           "symbol": "B2g",
+           "characters": [1,-1,1,-1,-1,1,1,-1,1,-1,-1,1]
+       },
+       {
+           "symbol": "E1g",
+           "characters": [2,1,-1,-2,0,0,2,1,-1,-2,0,0]
+       },
+       {
+           "symbol": "E2g",
+           "characters": [2,-1,-1,2,0,0,2,-1,-1,2,0,0]
+       },
+       {
+           "symbol": "A1u",
+           "characters": [1,1,1,1,1,1,-1,-1,-1,-1,-1,-1]
+       },
+       {
+           "symbol": "A2u",
+           "characters": [1,1,1,1,-1,-1,-1,-1,-1,-1,1,1]
+       },
+       {
+           "symbol": "B1u",
+           "characters": [1,-1,1,-1,1,-1,-1,1,-1,1,-1,1]
+       },
+       {
+           "symbol": "B2u",
+           "characters": [1,-1,1,-1,-1,1,-1,1,-1,1,1,-1]
+       },
+       {
+           "symbol": "E1u",
+           "characters": [2,1,-1,-2,0,0,-2,-1,1,2,0,0]
+       },
+       {
+           "symbol": "E2u",
+           "characters": [2,-1,-1,2,0,0,-2,1,1,-2,0,0]
+       }
+   ]
+}
