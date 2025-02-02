@@ -25,6 +25,7 @@ dependencies = [
     "pyqint",
     "pylebedev",
     "matplotlib",
+    "networkx",
 ]
 
 [tool.setuptools]
