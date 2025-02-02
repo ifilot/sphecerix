@@ -1,8 +1,9 @@
 # Sphecerix
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ifilot/sphecerix?label=version)
-[![Build](https://github.com/ifilot/sphecerix/actions/workflows/build.yml/badge.svg)](https://github.com/ifilot/sphecerix/actions/workflows/build.yml)
-[![Documentation](https://github.com/ifilot/sphecerix/actions/workflows/docs.yml/badge.svg)](https://sphecerix.imc-tue.nl)
+[![Build PyPI](https://github.com/ifilot/sphecerix/actions/workflows/build_pypi.yml/badge.svg)](https://github.com/ifilot/sphecerix/actions/workflows/build_pypi.yml)
+[![Build CONDA](https://github.com/ifilot/sphecerix/actions/workflows/build_conda.yml/badge.svg)](https://github.com/ifilot/sphecerix/actions/workflows/build_conda.yml)
+[![Documentation](https://github.com/ifilot/sphecerix/actions/workflows/docs.yml/badge.svg)](https://ifilot.github.io/sphecerix/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ![rotation of spherical harmonics](img/rotation_spherical_harmonics.jpg)
