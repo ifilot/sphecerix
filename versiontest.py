@@ -16,7 +16,7 @@ def main():
             assert version_versionpy[i] == version_metayaml[i]
     except Exception as e:
         print(e)
-        raise Exception('Invalid version strings encountered')
+        raise Exception('Invalid version strings encountered: %s / %s /%s' % (version_projecttoml, version_versionpy, version_metayaml))
 
 def get_version_projecttoml():
     """
