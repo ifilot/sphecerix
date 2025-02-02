@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphecerix"
+version = "0.5.0"
+authors = [
+  { name="Ivo Filot", email="ivo@ivofilot.nl" }
+]
+maintainers = [
+    { name="Ivo Filot", email="ivo@ivofilot.nl" },
+]
+description = "sphecerix"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "GPL-3.0-or-later"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "scipy>=1.15",
+    "numpy",
+    "pyqint",
+    "pylebedev",
+    "matplotlib",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sphecerix*"]
+
+[tool.conda.environment]
+name = "demo"
+channels = [
+    "ifilot",
+    "conda-forge",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ifilot/sphecerix"
+"Bug Tracker" = "https://github.com/ifilot/sphecerix/issues"
