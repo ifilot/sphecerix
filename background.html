@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background &mdash; Sphecerix  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=986af424" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Sphecerix
+              <img src="_static/sphecerix_logo_128.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wigner-d-matrices">Wigner-D matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tesseral-transformation">Tesseral transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mirror-operations-among-tesseral-spherical-harmonics">Mirror operations among tesseral spherical harmonics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labels-tesseral-spherical-harmonics">Labels tesseral spherical harmonics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="community_guidelines.html">Community guidelines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Sphecerix</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div style="text-align: right;">
+<a href="https://github.com/ifilot/sphecerix" target="_blank"><i class="fa-brands fa-github"></i> Github</a>
+</div>
+<hr>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="index-0">
+<span id="background"></span><span id="id1"></span><h1>Background<a class="headerlink" href="#index-0" title="Link to this heading"></a></h1>
+<section id="wigner-d-matrices">
+<h2>Wigner-D matrices<a class="headerlink" href="#wigner-d-matrices" title="Link to this heading"></a></h2>
+<p>The canonical spherical harmonics <span class="math notranslate nohighlight">\(Y_{lm}\)</span> subject to a rotation in
+<span class="math notranslate nohighlight">\(\mathbb{R}^{3}\)</span> will always mix among each other. As such, we can
+represent the act of rotating the spherical harmonics by the following
+matrix-vector equation</p>
+<div class="math notranslate nohighlight">
+\[\vec{Y}_{l}\prime = \mathbf{D}\vec{Y}_{l}\]</div>
+<p>wherein <span class="math notranslate nohighlight">\(\mathbf{D}\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Wigner_D-matrix">Wigner D-matrix</a>
+and <span class="math notranslate nohighlight">\(\vec{Y}_{l}\)</span> a vector composed of the canonical spherical harmonics
+of order <span class="math notranslate nohighlight">\(l\)</span>. The vector <span class="math notranslate nohighlight">\(\vec{Y}_{l}\prime\)</span> is the linear combination that
+represents the result of the rotation upon the (linear combination) of
+spherical harmonics prior to the rotation.</p>
+</section>
+<section id="tesseral-transformation">
+<h2>Tesseral transformation<a class="headerlink" href="#tesseral-transformation" title="Link to this heading"></a></h2>
+<p>The canonical spherical harmonics are complex-valued by nature, yet a transformation
+among them exists which casts the canonical spherical harmonics into real-valued
+so-called tesseral spherical harmonics. A similar transformation can be applied
+to the Wigner-D matrix such that it represents the effect of a rotation among
+tesseral spherical harmonics.</p>
+<p>Given the tesseral transformation that converts canonical spherical harmonics into
+tesseral ones as given by <span class="math notranslate nohighlight">\(\mathbf{T}\)</span> and the Wigner-D matrix <span class="math notranslate nohighlight">\(\mathbf{D}\)</span> built for canonical spherical harmonics, we can readily compute the Wigner-D matrix
+<span class="math notranslate nohighlight">\(\mathbf{D}\prime\)</span> for tesseral spherical harmonics by means of a basis transformation.</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{D}\prime = \mathbf{T} \mathbf{D} \mathbf{T}^{\dagger}.\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <strong class="program">Sphecerix</strong> one can choose to construct the Wigner-D matrix for either
+canonical or tesseral spherical harmonics.</p>
+</div>
+</section>
+<section id="mirror-operations-among-tesseral-spherical-harmonics">
+<h2>Mirror operations among tesseral spherical harmonics<a class="headerlink" href="#mirror-operations-among-tesseral-spherical-harmonics" title="Link to this heading"></a></h2>
+<p>To construct the transformation of a mirror operation <span class="math notranslate nohighlight">\(\hat{M}\)</span>, we can note that any
+mirror operation can be decomposed into a rotation and an inversion. Given a mirror
+operation through a mirror plane as represented by its normal vector <span class="math notranslate nohighlight">\(\vec{n}\)</span>.</p>
+<p>The matrix representation of this mirror operation is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{M} = \mathbf{I}_{3} - 2 \vec{n} \cdot \vec{n}^{\dagger}\]</div>
+<p>This matrix has a negative determinant and thus contains a reflection. We can
+get rid of this reflection by multiplying this matrix by -1 which is equivalent
+to an extraction of an inversion operation. In other words, we can decompose
+the matrix <span class="math notranslate nohighlight">\(\mathbf{M}\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{M} = (-\mathbf{I}_{3}) \mathbf{R}.\]</div>
+<p>The reflection operation in the space spanned by the tesseral spherical
+harmonics of order <span class="math notranslate nohighlight">\(l\)</span> is known and corresponds to the character for the
+inversion operation which is equal to <span class="math notranslate nohighlight">\((-1)^{l}\)</span>. As such, the
+transformation matrix corresponding to a mirror operation among tesseral
+spherical harmonics of order <span class="math notranslate nohighlight">\(l\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{T} = (-1)^{l} \cdot \mathbf{D}\prime(\hat{R})\]</div>
+<p>wherein <span class="math notranslate nohighlight">\(\mathbf{D}\prime\)</span> is the tesseral Wigner-D matrix for the
+rotation <span class="math notranslate nohighlight">\(\hat{R}\)</span> as extracted from the mirror operation <span class="math notranslate nohighlight">\(\hat{M}\)</span>.</p>
+</section>
+<section id="labels-tesseral-spherical-harmonics">
+<h2>Labels tesseral spherical harmonics<a class="headerlink" href="#labels-tesseral-spherical-harmonics" title="Link to this heading"></a></h2>
+<p>For the real-valued spherical harmonics, i.e. the spherical harmonics after a
+tesseral transformation, their canonical names are derived from the
+mathematical equation that describes the angular part of the hydrogen-like
+wave function. In the table below, an overview is given how the labels for
+the tesseral spherical harmonics are associated to the values for <span class="math notranslate nohighlight">\(m\)</span>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For a detailed description how these labels are constructed, have a look
+at <a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/ed082p323">this publication of Ashkenazi</a>.</p>
+</div>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Labeling of the tesseral spherical harmonics</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(-4\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(-3\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(-2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(-1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(0\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(3\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(4\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(s\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_{y}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_{z}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_{x}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{xy}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{yz}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{z^{2}}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{xz}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(d_{x^2-y^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{y(3x^2-y^2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{xyz}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{yz^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{z^3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{xz^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{z(x^2-y^2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_{x(x^2-3y^2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(-\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(g_{xy(x^2-y^2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{zy^3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{xyz^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{yz^3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{z^4}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{xz^3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{z^2(x^2-y^2)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{zx^3}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(g_{x^4+y^4}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Inorganic Materials and Catalysis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
