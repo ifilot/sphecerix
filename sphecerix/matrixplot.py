@@ -4,23 +4,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.patches as patches
 
-def visualize_matrices(symops, numcols = 3,
+def visualize_matrices(matrices, opnames, labels, numcols = 3,
                        highlight_groups = None, filename = None,
                        figsize=(7,5), xlabelrot = 0):
     """
     Visualize matrix representations of the symmetry operations
     """
     # grab data
-    matrices = symops.operation_matrices
-    operations = symops.operations
-    bfs = symops.mol.basis
-    
-    fig, ax = plt.subplots(len(operations) // numcols, 
+    fig, ax = plt.subplots(len(matrices) // numcols, 
                            numcols, dpi=144, figsize=figsize)
     
-    for i,(op,mat) in enumerate(zip(operations,matrices)):
+    for i,(opname,mat) in enumerate(zip(opnames,matrices)):
         axh = ax[i//numcols, i%numcols]
-        plot_matrix(axh, mat, bfs, title=op.name, xlabelrot = xlabelrot)
+        plot_matrix(axh, mat, labels, title=opname, xlabelrot = xlabelrot)
         
         if highlight_groups:
             plot_highlight_groups(axh, highlight_groups, mat)
@@ -32,23 +28,24 @@ def visualize_matrices(symops, numcols = 3,
         plt.savefig(filename)
         plt.close()
 
-def plot_highlight_groups(axh, groups, mat):
+def plot_highlight_groups(axh, blocks, mat):
     # add semitransparent hash
+    sumblocks = np.sum(g[0] for g in blocks)
     cum = 0
-    for g in groups:
-        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g, g, 
+    for g in blocks:
+        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g[0], g[0], 
                                  linewidth=1,
                                  zorder=5,
                                  fill = None,
                                  hatch='///',
                                  alpha=0.5)
         axh.add_patch(rect)
-        cum += g
+        cum += g[0]
         
     # add red outline
     cum = 0
-    for g in groups:
-        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g, g, 
+    for g in blocks:
+        rect = patches.Rectangle((cum - 0.5, cum - 0.5), g[0], g[0], 
                                  linewidth=1.5, edgecolor='red',
                                  linestyle='solid',
                                  facecolor='none',
@@ -56,15 +53,32 @@ def plot_highlight_groups(axh, groups, mat):
                                  alpha=1.0)
         axh.add_patch(rect)
         
-        axh.text(cum+g/2-0.5, cum+g/2-0.5, '%i' % round(np.trace(mat[cum:cum+g,cum:cum+g])),
+        axh.text(cum+g[0]/2-0.5, cum+g[0]/2-0.5, '%i' % round(np.trace(mat[cum:cum+g[0],cum:cum+g[0]])),
                  color='red', horizontalalignment='center', verticalalignment='center',
                  bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ),
                  zorder=6)
         
-        cum += g
+        k = (cum+1) > sumblocks/2
+        
+        if k:
+            label = r'%i $\times$ %s $\rightarrow$' % (g[1],g[2])
+        else:
+            label = r'$\leftarrow$ %i $\times$ %s' % (g[1],g[2])
+        
+        axh.text(cum+(-0.75 if k else g[0] - 0.25), cum+g[0]/2-0.5, 
+                 label,
+                 fontsize=6,
+                 color='red', 
+                 horizontalalignment='right' if k else 'left', 
+                 verticalalignment='center',
+                 bbox=dict(boxstyle="round", ec=(1., 0.5, 0.5), fc=(1., 0.8, 0.8), ),
+                 zorder=6)
+        
+        cum += g[0]
 
 
-def plot_matrix(ax, mat, bfs, title = None, xlabelrot = 0):
+def plot_matrix(ax, mat, labels, title = None, xlabelrot = 0, 
+                highlight_groups = None, **kwargs):
     """
     Produce plot of matrix
     """
@@ -81,7 +95,6 @@ def plot_matrix(ax, mat, bfs, title = None, xlabelrot = 0):
               color='black', linestyle='--', linewidth=1)
     
     # add basis functions as axes labels
-    labels = [bf.name for bf in bfs]
     ax.set_xticks(np.arange(0, mat.shape[0]))
     ax.set_xticklabels(labels, rotation=xlabelrot)
     ax.set_yticks(np.arange(0, mat.shape[0]))
@@ -90,5 +103,12 @@ def plot_matrix(ax, mat, bfs, title = None, xlabelrot = 0):
     
     # add title if supplied
     if title:
-        ax.set_title(title)
+        if 'titlefontsize' in kwargs:
+            titlefontsize = kwargs['titlefontsize']
+            ax.set_title(title, fontsize=titlefontsize)
+        else:
+            ax.set_title(title)
+        
+    if highlight_groups is not None:
+        plot_highlight_groups(ax, highlight_groups, mat)
     

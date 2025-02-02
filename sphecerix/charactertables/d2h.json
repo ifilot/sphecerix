@@ -1,0 +1,71 @@
+{
+   "name":"d2h",
+   "classes": [
+       {
+           "symbol": "E",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C2(z)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C2(y)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C2(x)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "i",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "sigma(xy)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "sigma(xz)",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "sigma(yz)",
+           "multiplicity": 1
+       }
+   ],
+   "symmetry_groups": [
+       {
+           "symbol": "Ag",
+           "characters": [1,1,1,1,1,1,1,1]
+       },
+       {
+           "symbol": "B1g",
+           "characters": [1,1,-1,-1,1,1,-1,-1]
+       },
+       {
+           "symbol": "B2g",
+           "characters": [1,-1,1,-1,1,-1,1,-1]
+       },
+       {
+           "symbol": "B3g",
+           "characters": [1,-1,-1,1,1,-1,-1,1]
+       },
+       {
+           "symbol": "Au",
+           "characters": [1,1,1,1,-1,-1,-1,-1]
+       },
+       {
+           "symbol": "B1u",
+           "characters": [1,1,-1,-1,-1,-1,1,1]
+       },
+       {
+           "symbol": "B2u",
+           "characters": [1,-1,1,-1,-1,1,-1,1]
+       },
+       {
+           "symbol": "B3u",
+           "characters": [1,-1,-1,1,-1,1,1,-1]
+       }
+   ]
+}
