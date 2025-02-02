@@ -1,0 +1,87 @@
+{
+   "name":"Ih",
+   "classes": [
+       {
+           "symbol": "E",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C5",
+           "multiplicity": 12
+       },
+       {
+           "symbol": "C5^2",
+           "multiplicity": 12
+       },
+       {
+           "symbol": "C3",
+           "multiplicity": 20
+       },
+       {
+           "symbol": "C2",
+           "multiplicity": 15
+       },
+       {
+           "symbol": "i",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "S10",
+           "multiplicity": 12
+       },
+       {
+           "symbol": "S10^3",
+           "multiplicity": 12
+       },
+       {
+           "symbol": "S6",
+           "multiplicity": 20
+       },
+       {
+           "symbol": "sigma",
+           "multiplicity": 15
+       }
+   ],
+   "symmetry_groups": [
+       {
+           "symbol": "Ag",
+           "characters": [1,1,1,1,1,1,1,1,1,1]
+       },
+       {
+           "symbol": "T1g",
+           "characters": [3,1.61803398875,-0.61803398875,0,-1,3,-0.61803398875,1.61803398875,0,-1]
+       },
+       {
+           "symbol": "T2g",
+           "characters": [3,-0.61803398875,1.61803398875,0,-1,3,1.61803398875,-0.61803398875,0,-1]
+       },
+       {
+           "symbol": "Gg",
+           "characters": [4,-1,-1,1,0,4,-1,-1,1,0]
+       },
+       {
+           "symbol": "Hg",
+           "characters": [5,0,0,-1,1,5,0,0,-1,1]
+       },
+       {
+           "symbol": "Au",
+           "characters": [1,1,1,1,1,-1,-1,-1,-1,-1]
+       },
+       {
+           "symbol": "T1u",
+           "characters": [3,1.61803398875,-0.61803398875,0,-1,-3,0.61803398875,-1.61803398875,0,1]
+       },
+       {
+           "symbol": "T2u",
+           "characters": [3,-0.61803398875,1.61803398875,0,-1,-3,-1.61803398875,0.61803398875,0,1]
+       },
+       {
+           "symbol": "Gu",
+           "characters": [4,-1,-1,1,0,-4,1,1,-1,0]
+       },
+       {
+           "symbol": "Hu",
+           "characters": [5,0,0,-1,1,-5,0,0,1,-1]
+       }
+   ]
+}

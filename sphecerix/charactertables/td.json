@@ -1,0 +1,47 @@
+{
+   "name":"c3v",
+   "classes": [
+       {
+           "symbol": "E",
+           "multiplicity": 1
+       },
+       {
+           "symbol": "C3",
+           "multiplicity": 8
+       },
+       {
+           "symbol": "C2",
+           "multiplicity": 3
+       },
+       {
+           "symbol": "S4",
+           "multiplicity": 6
+       },
+       {
+           "symbol": "sigma_d",
+           "multiplicity": 6
+       }
+   ],
+   "symmetry_groups": [
+       {
+           "symbol": "A1",
+           "characters": [1,1,1,1,1]
+       },
+       {
+           "symbol": "A2",
+           "characters": [1,1,1,-1,-1]
+       },
+       {
+           "symbol": "E",
+           "characters": [2,-1,2,0,0]
+       },
+       {
+           "symbol": "T1",
+           "characters": [3,0,-1,1,-1]
+       },
+       {
+           "symbol": "T2",
+           "characters": [3,0,-1,-1,1]
+       }
+   ]
+}

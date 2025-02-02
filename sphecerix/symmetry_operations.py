@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
-from . import tesseral_wigner_D, tesseral_wigner_D_mirror
+from . import tesseral_wigner_D, tesseral_wigner_D_mirror, tesseral_wigner_D_improper
 
 class SymmetryOperations:
     """
@@ -69,7 +69,7 @@ class SymmetryOperations:
                 for m,v in enumerate(mres):
                     idx = bfindices[atomid, bf.n, bf.l, m]
                     if idx == -1:
-                        raise Exception('Cannot perform this operation')
+                        continue
                     self.operation_matrices[k,i,idx] = v
 
 class Operation:
@@ -143,12 +143,15 @@ class ImproperRotation(Operation):
     Rotation operation "S"
     """
     def __init__(self, label, axis, angle):
-        super().__init__('sigma' + label)
+        super().__init__('S' + label)
         self.axis = axis / np.linalg.norm(axis)
         self.angle = angle
         self.robj = R.from_rotvec(self.axis * self.angle)
         
     def get_matrix(self):
-        M = np.identity(3) - 2.0 * self.normal @ self.normal.transpose()
+        M = np.identity(3) - 2 * np.outer(self.axis, self.axis)
         R = self.robj.as_matrix()
         return M @ R
+    
+    def get_wigner_matrix(self, l):
+        return tesseral_wigner_D_improper(l, self.robj)

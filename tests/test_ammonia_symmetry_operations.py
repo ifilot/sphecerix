@@ -7,7 +7,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 # import functions
-from sphecerix import Molecule, BasisFunction, SymmetryOperations
+from sphecerix import Molecule, BasisFunction, SymmetryOperations, \
+                      visualize_matrices, CharacterTable
 
 class TestAmmoniaSymmetryOperations(unittest.TestCase):
     """
@@ -46,6 +47,13 @@ class TestAmmoniaSymmetryOperations(unittest.TestCase):
         result = np.load(os.path.join(os.path.dirname(__file__), 'results', 'nh3.npy'))
         
         np.testing.assert_almost_equal(symops.operation_matrices, result)
+        
+        # assess LOT results
+        ct = CharacterTable('c3v')
+        irreps = ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2))
+        np.testing.assert_almost_equal(irreps, [4,0,2])
+        
+        
 
 if __name__ == '__main__':
     unittest.main()
