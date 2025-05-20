@@ -8,5 +8,6 @@ from .symmetry_operations import *
 from .matrixplot import plot_matrix, visualize_matrices
 from .character_table import CharacterTable
 from .projection_operator import ProjectionOperator
+from .commutant_algebra import *
 
 from ._version import __version__

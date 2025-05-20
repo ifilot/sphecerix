@@ -5,10 +5,11 @@ import os
 import numpy as np
 
 # add a reference to load the Sphecerix library
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from sphecerix import Molecule, BasisFunction, SymmetryOperations,\
-                      visualize_matrices, CharacterTable, ProjectionOperator
+                      visualize_matrices, CharacterTable, ProjectionOperator,\
+                      compute_commutant_basis, construct_similarity_matrix
 
 def main():
     mol = Molecule()
@@ -29,13 +30,14 @@ def main():
     
     symops = SymmetryOperations(mol)
     symops.add('identity')
-    symops.add('rotation', '3+', np.array([0,0,1]), 2.0 * np.pi / 3)
-    symops.add('rotation', '3-', -np.array([0,0,1]), 2.0 * np.pi / 3)
+    symops.add('rotation', '$_{3+}$', np.array([0,0,1]), 2.0 * np.pi / 3)
+    symops.add('rotation', '$_{3+}$', -np.array([0,0,1]), 2.0 * np.pi / 3)
     
     for i in range(0,3):
-        symops.add('mirror', 'v1', np.array([np.cos(i * 2.0 * np.pi / 3),
-                                             np.sin(i * 2.0 * np.pi / 3),
-                                             0.0]))
+        symops.add('mirror', '$_{v,%i}$' % (i+1), 
+                   np.array([np.cos(i * 2.0 * np.pi / 3),
+                             np.sin(i * 2.0 * np.pi / 3),
+                             0.0]))
 
     symops.run()
     
@@ -46,7 +48,7 @@ def main():
     
     # print result LOT
     ct = CharacterTable('c3v')
-    print(ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2)))
+    #print(ct.lot(np.trace(symops.operation_matrices, axis1=1, axis2=2)))
     
     # apply projection operator
     po = ProjectionOperator(ct, symops)
@@ -58,6 +60,27 @@ def main():
                        ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
                        figsize=(9,6),
                        highlight_groups=po.get_blocks())
+    
+    # print result via commutant
+    commutant_basis = compute_commutant_basis(symops.operation_matrices)
+    U = construct_similarity_matrix(commutant_basis)
+    optmat_trans = [U.T @ M @ U for M in symops.operation_matrices]
+
+    # manually define the blocks (ToDo: do this automatically)
+    blocks = [
+        (1, 1.0, 'A1'), 
+        (2, 1.0, 'E'), 
+        (1, 1.0, 'A1'), 
+        (2, 1.0, 'E'),
+        (1, 1.0, 'A1'), 
+        (1, 1.0, 'A1'),
+    ]
+    
+    visualize_matrices(optmat_trans, 
+                       [op.name for op in symops.operations],
+                       ['$\phi_{%i}$' % (i+1) for i in range(len(symops.mol.basis))],
+                       figsize=(9,6),
+                       highlight_groups=blocks)
 
 if __name__ == '__main__':
     main()
